@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView
+    android:layout_marginRight="@dimen/_10sdp"
+    android:layout_marginLeft="@dimen/_10sdp"
+    android:layout_marginTop="@dimen/_10sdp"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:cardCornerRadius="@dimen/_5sdp"
+    app:cardElevation="@dimen/_3sdp"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_80sdp"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:src="@color/blue"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:layout_marginTop="@dimen/_10sdp"
+            android:includeFontPadding="false"
+            android:id="@+id/textView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/iran_sans_mobile_bold"
+            android:gravity="right"
+            android:paddingEnd="@dimen/_10sdp"
+            android:textColor="@color/gray4F4F4F"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintTop_toBottomOf="@+id/imageView"
+            tools:ignore="SpUsage"
+            android:text="The Spider Man" />
+
+        <TextView
+
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_5sdp"
+            android:layout_marginBottom="@dimen/_5sdp"
+            android:fontFamily="@font/iran_sans_mobile_bold"
+            android:gravity="right"
+            android:includeFontPadding="false"
+            android:paddingEnd="@dimen/_10sdp"
+            android:textColor="@color/gray"
+            android:textSize="@dimen/_9sdp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView"
+            tools:ignore="SpUsage"
+            android:text="The Spider ManThe Spider ManThe Spider ManThe Spider ManThe Spider ManThe Spider ManThe Spider ManThe Spider ManThe Spider ManThe Spider ManThe Spider Man" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>

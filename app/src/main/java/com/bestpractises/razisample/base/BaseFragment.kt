@@ -8,7 +8,7 @@ import com.bestpractises.razisample.MainActivity
 
 
 abstract class BaseFragment : Fragment() {
-
+    var hasInitializedRootView = false
 
     override fun onAttach(context: Context) {
         super.onAttach(context)
@@ -18,7 +18,10 @@ abstract class BaseFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        if (!hasInitializedRootView) {
+            hasInitializedRootView = true
+            onViewCreatedFirstTime()
+        }
 
     }
 
