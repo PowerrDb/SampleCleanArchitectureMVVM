@@ -5,6 +5,7 @@ import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.bestpractises.razisample.ui.movieList.data.model.MovieItem
 import com.bestpractises.razisample.ui.movieList.domain.MovieListUsecase
 import com.bestpractises.razisample.util.AppUtility
 import com.bestpractises.razisample.util.extension.ResultData
@@ -17,9 +18,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class MovieListViewModel @Inject constructor(
-    val useCase:  MovieListUsecase
+    val useCase:  MovieListUsecase,
+    application: Application
 ) : ViewModel() {
-    val movieListLiveData = MutableLiveData<ResultData<Response<ArrayList<Any>>>>()
+    val movieListLiveData = MutableLiveData<ResultData<Response<MovieItem>>>()
 
     val moviesErrorHandler: CoroutineExceptionHandler
     private var getMoviesJob: Job? = null
@@ -27,15 +29,15 @@ class MovieListViewModel @Inject constructor(
 
     init {
         moviesErrorHandler = CoroutineExceptionHandler { coroutineContext, throwable ->
-//            movieListLiveData.postValue(
-//                ResultData.Failed(
-//                    AppUtility.getErrorMessageStr(
-//                        application,
-//                        throwable
-//                    )
-//                )
-//            )
-        }
+            movieListLiveData.postValue(
+                ResultData.Failed(
+                    AppUtility.getErrorMessageStr(
+                        application,
+                        throwable
+                    )
+                )
+            )
+      }
 
     }
 

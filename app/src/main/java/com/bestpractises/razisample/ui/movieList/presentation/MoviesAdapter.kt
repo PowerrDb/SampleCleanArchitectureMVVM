@@ -7,32 +7,29 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bestpractises.razisample.R
+import com.bestpractises.razisample.ui.movieList.data.model.MovieResult
 
 
 class MoviesAdapter(val onItemClicked: () -> Unit) :
-    ListAdapter<Any, MoviesAdapter.MovieListViewHolder>(DIFFER_CALLBACK) {
+    ListAdapter<MovieResult, MoviesAdapter.MovieListViewHolder>(DIFFER_CALLBACK) {
 
     companion object {
-        val DIFFER_CALLBACK: DiffUtil.ItemCallback<Any> = object :
-            DiffUtil.ItemCallback<Any>() {
+        val DIFFER_CALLBACK: DiffUtil.ItemCallback<MovieResult> = object :
+            DiffUtil.ItemCallback<MovieResult>() {
             override fun areItemsTheSame(
-                oldItem: Any,
-                newItem: Any
+                oldItem: MovieResult,
+                newItem: MovieResult
             ): Boolean {
                 return /*oldItem.id == newItem.id*/false
             }
 
             override fun areContentsTheSame(
-                oldItem: Any,
-                newItem: Any
+                oldItem: MovieResult,
+                newItem: MovieResult
             ): Boolean {
                 return/* oldItem == newItem*/false
             }
         }
-    }
-
-    override fun getItemCount(): Int {
-        return 10
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieListViewHolder {
@@ -43,14 +40,14 @@ class MoviesAdapter(val onItemClicked: () -> Unit) :
     }
 
     override fun onBindViewHolder(holder: MovieListViewHolder, position: Int) {
-//        holder.onBind(currentList[position])
+       holder.onBind(currentList[position])
     }
 
     inner class MovieListViewHolder(
         val item: View,
         val onItemClicked: () -> Unit
     ) : RecyclerView.ViewHolder(item) {
-        fun onBind(movieModel: Any) {
+        fun onBind(movieModel: MovieResult) {
         }
     }
 }

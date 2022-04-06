@@ -82,29 +82,9 @@ object NetworkModule {
     ): OkHttpClient {
         return if (BuildConfig.DEBUG)
             okHttpClientBuilder
-                .addInterceptor { chain ->
-                    chain.proceed(
-                        chain
-                            .request()
-                            .newBuilder()
-                            .addHeader("Authorization", "Bearer " + AppSession.getToken())
-                            .addHeader("CorrelationId", AppSession.getUuid())
-                            .build()
-                    )
-                }
                 .addInterceptor(loggingInterceptor)
                 .build()
         else okHttpClientBuilder
-            .addInterceptor { chain ->
-                chain.proceed(
-                    chain
-                        .request()
-                        .newBuilder()
-                        .addHeader("Authorization", "Bearer " + AppSession.getToken())
-                        .addHeader("CorrelationId", AppSession.getUuid())
-                        .build()
-                )
-            }
             .build()
 
     }

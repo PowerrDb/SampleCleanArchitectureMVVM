@@ -43,7 +43,7 @@ android {
             applicationIdSuffix ".debug"
 
             buildConfigField 'String', 'SSO_URL', '"' + "https://sso.hen-dev.ir" + '"'
-            buildConfigField 'String', 'API_URL', '"' + "https://api.hen-dev.ir" + '"'
+            buildConfigField 'String', 'API_URL', '"' + "https://api.themoviedb.org" + '"'
 //            buildConfigField 'String', 'API_URL', '"' + "https://ep.hen-dev.ir" + '"'
             buildConfigField 'String', 'MEDIA_URL', '"' + "https://media.hen-dev.ir" + '"'
             buildConfigField 'String', 'MESSAGING_URL', '"' + "https://messaging.hen-dev.ir" + '"'

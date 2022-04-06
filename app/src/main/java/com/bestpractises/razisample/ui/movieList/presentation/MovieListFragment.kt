@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import com.bestpractises.razisample.base.BaseFragment
 import com.bestpractises.razisample.databinding.FragmentMovieBinding
+import com.bestpractises.razisample.ui.movieList.data.model.MovieItem
 import com.bestpractises.razisample.util.extension.*
 import dagger.hilt.android.AndroidEntryPoint
 import retrofit2.Response
@@ -20,14 +21,17 @@ class MovieListFragment : BaseFragment() {
 
 
     }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         observe(viewModel.movieListLiveData, ::movieListData)
         initRecyclerView()
         setListener()
+        viewModel.getMovieList(1)
+    }
+    override fun onViewCreatedFirstTime() {
 
     }
-    override fun onViewCreatedFirstTime() {}
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,12 +44,16 @@ class MovieListFragment : BaseFragment() {
     }
 
     private fun setListener() {
-        binding.swipeRefresh.setOnRefreshListener {}
+        binding.swipeRefresh.setOnRefreshListener {
+            viewModel.getMovieList(1)
+        }
     }
 
-    private fun movieListData(result: ResultData<Response<ArrayList<Any>>>?) {
+    private fun movieListData(result: ResultData<Response<MovieItem>>?) {
         when (result) {
-            is ResultData.Success -> {}
+            is ResultData.Success -> {
+                mAdapter.submitList(result.data.body()?.results)
+            }
             is ResultData.Loading -> {}
             is ResultData.Failed -> {}
         }
