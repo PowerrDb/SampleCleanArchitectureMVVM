@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout app:backgroundTint="@android:color/transparent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".BlankFragment"
+
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <!-- TODO: Update blank fragment layout -->
+    <TextView
+        android:text="aaa"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        />
+
+    <com.bestpractises.razisample.util.customView.morphButton.MorphButton
+        android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:id="@+id/morph"
+        android:textSize="@dimen/_14sdp"
+        android:fontFamily="@font/iran_sans_mobile_bold"
+        android:textColor="@color/white"
+        android:text="ورود"
+        app:mb_progressColor="@color/white"
+        app:mb_backgroundColor="#ff0000"
+
+        android:layout_height="@dimen/_48sdp"/>
+
+</FrameLayout>

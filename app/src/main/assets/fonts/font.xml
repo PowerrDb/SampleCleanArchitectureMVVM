@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<font-family xmlns:app="http://www.w3.org/1999/xhtml">
+    <font app:fontStyle="normal" app:fontWeight="400" app:font="@font/iran_sans_mobile"/>
+    <font app:fontStyle="normal" app:fontWeight="400" app:font="@font/iran_sans_mobile_black"/>
+    <font app:fontStyle="normal" app:fontWeight="400" app:font="@font/iran_sans_mobile_bold"/>
+    <font app:fontStyle="normal" app:fontWeight="400" app:font="@font/iran_sans_mobile_ultra_light"/>
+    <font app:fontStyle="normal" app:fontWeight="400" app:font="@font/iran_sans_mobile_medium"/>
+    <font app:fontStyle="normal" app:fontWeight="400" app:font="@font/iran_sans_mobile_light"/>
+</font-family>
