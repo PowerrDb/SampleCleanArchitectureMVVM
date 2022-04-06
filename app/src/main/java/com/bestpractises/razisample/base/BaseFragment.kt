@@ -5,7 +5,7 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.Fragment
 import com.bestpractises.razisample.MainActivity
-import com.trendyol.medusalib.navigator.MultipleStackNavigator
+
 
 abstract class BaseFragment : Fragment() {
 

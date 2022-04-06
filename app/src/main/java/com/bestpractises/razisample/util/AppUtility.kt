@@ -22,7 +22,6 @@ import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
-import com.google.androidbrowserhelper.trusted.TwaLauncher
 import com.bestpractises.razisample.AppSession
 import com.bestpractises.razisample.BuildConfig
 import com.bestpractises.razisample.network.NetworkConst
@@ -229,25 +228,7 @@ object AppUtility {
     }
 
     fun isInteger(str: String?) = str?.toIntOrNull()?.let { true } ?: false
-    fun openRayChat(context: Context?) {
-        context?.let {
-            var uri: Uri?
-            uri = if (AppSession.getUuid() == "") {
-                Uri.parse("https://chat.iranegg.com/index.html")
-                    .buildUpon()
-                    .appendQueryParameter("personid", AppSession.getPersonId().toString())
-                    .appendQueryParameter("userid", AppSession.getUserId().toString())
-                    .appendQueryParameter("mobile", AppSession.getPhone())
-                    .build()
-            } else {
-                Uri.parse("https://chat.iranegg.com/index.html")
-            }
 
-            val twaLauncher = TwaLauncher(it)
-            twaLauncher.launch(uri)
-        }
-
-    }
 
 
     fun getChangedColorDrawable(
