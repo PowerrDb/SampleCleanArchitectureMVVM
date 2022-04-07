@@ -23,7 +23,7 @@ class MovieListFragment : BaseFragment() {
     private var mItems: MutableList<MovieResult>? = mutableListOf()
     private lateinit var binding: FragmentMovieBinding
     private val mAdapter = MoviesAdapter(::onItemClicked)
-    private var data: ResultData.Success<MovieItem>? = null
+    private var data: MovieItem? = null
     private var page: Int = 1
     private var totalPages: Int? = null
     private var linearLayoutManager: LinearLayoutManager? = null
@@ -60,6 +60,12 @@ class MovieListFragment : BaseFragment() {
     }
 
     private fun setListener() {
+        binding.clError.gone()
+        binding.btnRetry.setOnClickListener {
+            isLoading=true
+            viewModel.getMovieList(1)
+        }
+
         binding.swipeRefresh.setOnRefreshListener {
             binding.swipeRefresh.isRefreshing = false
             mItems?.clear()
@@ -77,25 +83,31 @@ class MovieListFragment : BaseFragment() {
                 totalPages = result.data.totalPages
                 page = result.data.page
                 page += 1
+                binding.clError.gone()
             }
             is ResultData.Loading -> {
                 binding.progressBar.visible()
+                binding.clError.gone()
             }
-            is ResultData.Failed -> {
-                binding.progressBar.gone()
-                errorMessage(result.message)
+            is ResultData.Failed  -> {
                 isLoading = false
+                showRetry(result.message)
 
             }
             is ResultData.Exception -> {
                 isLoading = false
-                binding.progressBar.gone()
-                errorMessage(result.message)
-
+                showRetry(result.message)
             }
         }
     }
 
+    private fun showRetry(message: String) {
+        binding.progressBar.gone()
+        if (mItems.isNullOrEmpty()) {
+            binding.clError.visible()
+            binding.tvTitleError.text = message
+        } else errorMessage(message)
+    }
 
 
     private fun nexPage(nextPage: Int) {
