@@ -7,6 +7,8 @@ import android.view.ViewGroup
 import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bestpractises.razisample.R
 import com.bestpractises.razisample.base.BaseFragment
 import com.bestpractises.razisample.databinding.FragmentMovieBinding
@@ -17,15 +19,21 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MovieListFragment : BaseFragment() {
-    private var isInitPagination: Boolean=false
-    val viewModel by viewModels<MovieListViewModel>()
-    var  mItems : MutableList<MovieResult> ? = mutableListOf()
+    private val viewModel by viewModels<MovieListViewModel>()
+    private var mItems: MutableList<MovieResult>? = mutableListOf()
     private lateinit var binding: FragmentMovieBinding
-    val mAdapter = MoviesAdapter(::onItemClicked)
-    var data  : ResultData.Success<MovieItem>?=null
+    private val mAdapter = MoviesAdapter(::onItemClicked)
+    private var data: ResultData.Success<MovieItem>? = null
+    private var page: Int = 1
+    private var totalPages: Int? = null
+    private var linearLayoutManager: LinearLayoutManager? = null
+    private var listener: RecyclerView.OnScrollListener? = null
+    private var isLoading: Boolean = false
+    private val doOnNextPage: (nextPage: Int) -> Unit = ::nexPage
+
     private fun onItemClicked(movieModel: MovieResult) {
         val bundle = bundleOf("movieModel" to movieModel)
-        findNavController().navigate(R.id.action_movieListFragment_to_movieDetailFragment ,bundle )
+        findNavController().navigate(R.id.action_movieListFragment_to_movieDetailFragment, bundle)
 
     }
 
@@ -34,9 +42,8 @@ class MovieListFragment : BaseFragment() {
         observe(viewModel.movieListLiveData, ::movieListData)
         initRecyclerView()
         setListener()
-        isInitPagination = false
-        pagination(data)
     }
+
     override fun onViewCreatedFirstTime() {
         viewModel.getMovieList(1)
 
@@ -56,7 +63,6 @@ class MovieListFragment : BaseFragment() {
         binding.swipeRefresh.setOnRefreshListener {
             binding.swipeRefresh.isRefreshing = false
             mItems?.clear()
-            isInitPagination=false
             viewModel.getMovieList(1)
         }
     }
@@ -64,13 +70,13 @@ class MovieListFragment : BaseFragment() {
     private fun movieListData(result: ResultData<MovieItem>?) {
         when (result) {
             is ResultData.Success -> {
-                isLoading=false
-                isloading()
+                isLoading = false
                 binding.progressBar.gone()
                 mItems?.addAll(result.data.results)
                 mAdapter.submitList(ArrayList(mItems))
-                pagination(result)
-                data=result
+                totalPages = result.data.totalPages
+                page = result.data.page
+                page += 1
             }
             is ResultData.Loading -> {
                 binding.progressBar.visible()
@@ -78,16 +84,11 @@ class MovieListFragment : BaseFragment() {
             is ResultData.Failed -> {
                 binding.progressBar.gone()
                 errorMessage(result.message)
-                isInitPagination=false
-                isLoading =false
-                isloading()
-                pagination(data)
+                isLoading = false
+
             }
             is ResultData.Exception -> {
-                isInitPagination=false
-                isLoading =false
-                isloading()
-                pagination(data)
+                isLoading = false
                 binding.progressBar.gone()
                 errorMessage(result.message)
 
@@ -95,42 +96,37 @@ class MovieListFragment : BaseFragment() {
         }
     }
 
-    private fun pagination(result: ResultData.Success<MovieItem>?) {
-        result?.let {
-            if (!isInitPagination) {
-                isInitPagination = true
-                binding.rvMovies.pagination(result.data.totalPages, callback, loadNextPage = {
-                    isLoading = true
-                    isloading()
-                    viewModel.getMovieList(it)
-                })
-            }
-        }
 
+
+    private fun nexPage(nextPage: Int) {
+        isLoading = true
+        viewModel.getMovieList(nextPage)
     }
 
-    val callback : () -> Boolean = ::isloading
-
-    private fun isloading(): Boolean {
-        return isLoading
-    }
-
-    var isLoading: Boolean = false
     fun initRecyclerView() {
+        linearLayoutManager = LinearLayoutManager(requireContext())
         binding.rvMovies.run {
             adapter = mAdapter
             setHasFixedSize(true)
+            layoutManager = linearLayoutManager
+
         }
-
-    }
-
-    companion object {
-        fun newInstance(): MovieListFragment {
-            var movieListFragment = MovieListFragment()
-            return movieListFragment
+        listener = object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
+                val visibleItemCount = linearLayoutManager!!.childCount
+                val totalItemCount = linearLayoutManager!!.itemCount-12
+                val firstVisibleItemPosition = linearLayoutManager!!.findFirstVisibleItemPosition()
+                if (totalPages != null) {
+                    if (!isLoading && totalPages!! > page) {
+                        if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0) {
+                            doOnNextPage(page)
+                        }
+                    }
+                }
+            }
         }
-
+        binding.rvMovies.addOnScrollListener(listener!!)
     }
-
 
 }
