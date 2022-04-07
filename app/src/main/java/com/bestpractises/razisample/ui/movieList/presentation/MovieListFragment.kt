@@ -4,12 +4,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.bestpractises.razisample.base.BaseFragment
 import com.bestpractises.razisample.databinding.FragmentMovieBinding
 import com.bestpractises.razisample.ui.movieList.data.model.MovieItem
 import com.bestpractises.razisample.util.extension.*
 import dagger.hilt.android.AndroidEntryPoint
+import es.dmoral.toasty.Toasty
 import retrofit2.Response
 
 @AndroidEntryPoint
@@ -49,13 +51,18 @@ class MovieListFragment : BaseFragment() {
         }
     }
 
-    private fun movieListData(result: ResultData<Response<MovieItem>>?) {
+    private fun movieListData(result: ResultData<MovieItem>?) {
         when (result) {
             is ResultData.Success -> {
-                mAdapter.submitList(result.data.body()?.results)
+                mAdapter.submitList(result.data.results)
             }
             is ResultData.Loading -> {}
-            is ResultData.Failed -> {}
+            is ResultData.Failed -> {
+                errorMessage(result.message)
+            }
+            is ResultData.Exception -> {
+                errorMessage(result.message)
+            }
         }
     }
 

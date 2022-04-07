@@ -220,9 +220,9 @@ object AppUtility {
         var error_message: String
         error_message =
             if (e is IOException && !NetworkAvailable.isNetworkAvailable(context)) {
-                "عدم دسترسی به اینترنت"
+                "Network Connection Error or no network available"
             } else {
-                "خطا در برقراری ارتباط با سرور"
+                "${e?.message}"
             }
         return error_message
     }

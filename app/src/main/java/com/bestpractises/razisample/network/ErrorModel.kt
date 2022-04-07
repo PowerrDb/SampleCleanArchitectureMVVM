@@ -5,19 +5,11 @@ import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 
 data class ErrorModel(
-    @SerializedName("detail")
+    @SerializedName("status_message")
     @Expose
-    val detail: String,
-    @SerializedName("status")
+    val status_message: String,
+    @SerializedName("status_code")
     @Expose
-    val status: Int,
-    @SerializedName("title")
-    @Expose
-    val title: String,
-    @SerializedName("traceId")
-    @Expose
-    val traceId: String,
-    @SerializedName("type")
-    @Expose
-    val type: String
+    val status_code: Int
+
 )
