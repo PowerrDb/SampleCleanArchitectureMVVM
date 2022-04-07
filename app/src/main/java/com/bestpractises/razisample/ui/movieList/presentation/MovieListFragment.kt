@@ -82,7 +82,7 @@ class MovieListFragment : BaseFragment() {
     private fun pagination(result: ResultData.Success<MovieItem>) {
         if (!isInitPagination) {
             isInitPagination = true
-            binding.rvMovies.pagination(result.data.totalPages, callback, loadPage = {
+            binding.rvMovies.pagination(result.data.totalPages, callback, loadNextPage = {
                 isLoading = true
                 isloading()
                 viewModel.getMovieList(it)

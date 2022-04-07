@@ -5,7 +5,7 @@ import android.view.View
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-fun RecyclerView.pagination(totalPages : Int?,isloading :()->Boolean,loadPage : (page : Int)->Unit) {
+fun RecyclerView.pagination(totalPages : Int?,isloading :()->Boolean,loadNextPage : (page : Int)->Unit) {
     var page = 1
 
 
@@ -19,7 +19,7 @@ fun RecyclerView.pagination(totalPages : Int?,isloading :()->Boolean,loadPage : 
                 if (!isloading()  &&  totalPages>page) {
                     if (visibleItemCount + firstVisibleItemPosition >= totalItemCount && firstVisibleItemPosition >= 0) {
                         page +=1
-                        loadPage(page)
+                        loadNextPage(page)
                     }
                 }
             }
