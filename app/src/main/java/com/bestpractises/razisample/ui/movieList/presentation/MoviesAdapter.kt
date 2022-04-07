@@ -13,7 +13,7 @@ import com.bestpractises.razisample.util.extension.ImageLoaderUtility.loadImage
 import kotlin.math.roundToInt
 
 
-class MoviesAdapter(val onItemClicked: () -> Unit) :
+class MoviesAdapter(val onItemClicked: (movieModel: MovieResult) -> Unit) :
     ListAdapter<MovieResult, MoviesAdapter.MovieListViewHolder>(DIFFER_CALLBACK) {
 
     companion object {
@@ -47,9 +47,12 @@ class MoviesAdapter(val onItemClicked: () -> Unit) :
 
     inner class MovieListViewHolder(
         val item: AdapterItemMovieBinding,
-        val onItemClicked: () -> Unit
+        val onItemClicked: (movieModel: MovieResult) -> Unit
     ) : RecyclerView.ViewHolder(item.root) {
         fun onBind(movieModel: MovieResult) {
+            item.root.setOnClickListener {
+                onItemClicked(movieModel)
+            }
             item.ivCover.loadImage(movieModel.backdropPath)
             item.tvTitle.text = movieModel.title
             item.tvDescription.text = movieModel.overview
