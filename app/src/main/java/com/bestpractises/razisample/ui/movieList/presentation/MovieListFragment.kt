@@ -115,7 +115,7 @@ class MovieListFragment : BaseFragment() {
             override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
                 super.onScrolled(recyclerView, dx, dy)
                 val visibleItemCount = linearLayoutManager!!.childCount
-                val totalItemCount = linearLayoutManager!!.itemCount-12
+                val totalItemCount = linearLayoutManager!!.itemCount-10
                 val firstVisibleItemPosition = linearLayoutManager!!.findFirstVisibleItemPosition()
                 if (totalPages != null) {
                     if (!isLoading && totalPages!! > page) {

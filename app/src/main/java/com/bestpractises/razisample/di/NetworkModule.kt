@@ -5,7 +5,6 @@ import android.content.Context
 import android.content.Intent
 import com.bestpractises.razisample.AppSession
 import com.bestpractises.razisample.BuildConfig
-import com.bestpractises.razisample.di.qualifier.*
 import com.bestpractises.razisample.network.*
 import dagger.Module
 import dagger.Provides
@@ -26,22 +25,8 @@ import javax.inject.Singleton
 @Module
 object NetworkModule {
 
-    @BaseUrlAPI
     @Provides
     fun provideBaseUrlAPI(): String = BuildConfig.API_URL
-
-    @BaseUrlSSO
-    @Provides
-    fun provideBaseUrlBaseUrlSSO(): String = BuildConfig.SSO_URL
-
-    @BaseUrlMedia
-    @Provides
-    fun provideBaseUrlMedia(): String = BuildConfig.MEDIA_URL
-
-    @BaseUrlMessaging
-    @Provides
-    fun provideBaseUrlMessaging(): String = BuildConfig.MESSAGING_URL
-
 
     @Provides
     fun provideLoggingInterceptor(): HttpLoggingInterceptor {
@@ -51,29 +36,12 @@ object NetworkModule {
     @Provides
     fun provideOkHttpClientBuilder(): OkHttpClient.Builder {
         return OkHttpClient.Builder()
-            .callTimeout(5, TimeUnit.SECONDS)
+            .callTimeout(10, TimeUnit.SECONDS)
             .connectTimeout(30, TimeUnit.SECONDS)
             .writeTimeout(30, TimeUnit.SECONDS)
             .readTimeout(30, TimeUnit.SECONDS)
     }
 
-    @OkHttpApiWithoutToken
-    @Provides
-    fun providesOkHttpClient(
-        loggingInterceptor: HttpLoggingInterceptor,
-        okHttpClientBuilder: OkHttpClient.Builder
-    ): OkHttpClient {
-        return if (BuildConfig.DEBUG)
-            okHttpClientBuilder
-                .addInterceptor(loggingInterceptor)
-                .build()
-        else okHttpClientBuilder
-            .build()
-
-
-    }
-
-    @OkHttpApi
     @Provides
     fun providesOkHttpApiClient(
         @ApplicationContext appContext: Context,
@@ -89,39 +57,16 @@ object NetworkModule {
 
     }
 
-
-
-
-
     @Provides
     fun provideConverterFactory(): Converter.Factory {
         return GsonConverterFactory.create()
     }
 
-
-    @RetrofitAPIWithoutToken
-    @Provides
-    fun providesRetrofitAPIWithoutToken(
-        @BaseUrlAPI baseUrl: String,
-        converter: Converter.Factory,
-        @OkHttpApiWithoutToken okHttpClient: OkHttpClient
-    ): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .addConverterFactory(converter)
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .client(okHttpClient)
-            .build()
-
-    }
-
-
-    @RetrofitAPI
     @Provides
     fun providesRetrofitAPI(
-        @BaseUrlAPI baseUrl: String,
+       baseUrl: String,
         converter: Converter.Factory,
-        @OkHttpApi okHttpClient: OkHttpClient
+         okHttpClient: OkHttpClient
     ): Retrofit {
         return Retrofit.Builder()
             .baseUrl(baseUrl)
@@ -132,81 +77,11 @@ object NetworkModule {
 
     }
 
-    @RetrofitSSO
-    @Provides
-    fun providesRetrofitSSO(
-        @BaseUrlSSO baseUrl: String,
-        converter: Converter.Factory,
-        @OkHttpApi okHttpClient: OkHttpClient
-    ): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .addConverterFactory(converter)
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .client(okHttpClient)
-            .build()
-
-    }
-
-    @RetrofitMedia
-    @Provides
-    fun providesRetrofitMedia(
-        @BaseUrlMedia baseUrl: String,
-        converter: Converter.Factory,
-        @OkHttpApi okHttpClient: OkHttpClient
-    ): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .addConverterFactory(converter)
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .client(okHttpClient)
-            .build()
-
-    }
-
-    @RetrofitMessaging
-    @Provides
-    fun providesRetrofitMessaging(
-        @BaseUrlMessaging baseUrl: String,
-        converter: Converter.Factory,
-        @OkHttpApi okHttpClient: OkHttpClient
-    ): Retrofit {
-        return Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .addConverterFactory(converter)
-            .addCallAdapterFactory(RxJava3CallAdapterFactory.create())
-            .client(okHttpClient)
-            .build()
-
-    }
 
     @Singleton
     @Provides
-    fun providesApiServiceAPIWithoutToken(@RetrofitAPIWithoutToken retrofit: Retrofit): ApiServiceWithoutToken {
-        return retrofit.create(ApiServiceWithoutToken::class.java)
-    }
-
-    @Singleton
-    @Provides
-    fun providesApiServiceAPI(@RetrofitAPI retrofit: Retrofit): ApiService {
+    fun providesApiServiceAPI(retrofit: Retrofit): ApiService {
         return retrofit.create(ApiService::class.java)
     }
 
-    @Singleton
-    @Provides
-    fun providesApiServiceSSO(@RetrofitSSO retrofit: Retrofit): ApiServiceSSO {
-        return retrofit.create(ApiServiceSSO::class.java)
-    }
-
-    @Singleton
-    @Provides
-    fun providesApiServiceMEDIA(@RetrofitMedia retrofit: Retrofit): ApiServiceMedia {
-        return retrofit.create(ApiServiceMedia::class.java)
-    }
-
-    @Singleton
-    @Provides
-    fun providesApiServiceMessaging(@RetrofitMessaging retrofit: Retrofit): ApiServiceMessaging {
-        return retrofit.create(ApiServiceMessaging::class.java)
-    }
 }
