@@ -4,19 +4,19 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.viewModels
 import com.bestpractises.razisample.base.BaseFragment
 import com.bestpractises.razisample.databinding.FragmentMovieBinding
 import com.bestpractises.razisample.ui.movieList.data.model.MovieItem
+import com.bestpractises.razisample.ui.movieList.data.model.MovieResult
 import com.bestpractises.razisample.util.extension.*
 import dagger.hilt.android.AndroidEntryPoint
-import es.dmoral.toasty.Toasty
-import retrofit2.Response
 
 @AndroidEntryPoint
 class MovieListFragment : BaseFragment() {
+    private var isInitPagination: Boolean=false
     val viewModel by viewModels<MovieListViewModel>()
+    var  mItems : MutableList<MovieResult> ? = mutableListOf()
     private lateinit var binding: FragmentMovieBinding
     val mAdapter = MoviesAdapter(::onItemClicked)
     private fun onItemClicked() {
@@ -47,6 +47,9 @@ class MovieListFragment : BaseFragment() {
 
     private fun setListener() {
         binding.swipeRefresh.setOnRefreshListener {
+            binding.swipeRefresh.isRefreshing = false
+            mItems?.clear()
+            isInitPagination=false
             viewModel.getMovieList(1)
         }
     }
@@ -54,23 +57,52 @@ class MovieListFragment : BaseFragment() {
     private fun movieListData(result: ResultData<MovieItem>?) {
         when (result) {
             is ResultData.Success -> {
-                mAdapter.submitList(result.data.results)
+                isLoading=false
+                isloading()
+                binding.progressBar.gone()
+                mItems?.addAll(result.data.results)
+                mAdapter.submitList(ArrayList(mItems))
+                pagination(result)
             }
-            is ResultData.Loading -> {}
+            is ResultData.Loading -> {
+                binding.progressBar.visible()
+            }
             is ResultData.Failed -> {
+                binding.progressBar.gone()
                 errorMessage(result.message)
             }
             is ResultData.Exception -> {
+                binding.progressBar.gone()
                 errorMessage(result.message)
+
             }
         }
     }
 
+    private fun pagination(result: ResultData.Success<MovieItem>) {
+        if (!isInitPagination) {
+            isInitPagination = true
+            binding.rvMovies.pagination(result.data.totalPages, callback, loadPage = {
+                isLoading = true
+                isloading()
+                viewModel.getMovieList(it)
+            })
+        }
+    }
+
+    val callback : () -> Boolean = ::isloading
+
+    private fun isloading(): Boolean {
+        return isLoading
+    }
+
+    var isLoading: Boolean = false
     fun initRecyclerView() {
         binding.rvMovies.run {
             adapter = mAdapter
             setHasFixedSize(true)
         }
+
     }
 
     companion object {

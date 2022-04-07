@@ -34,7 +34,7 @@ data class MovieResult(
     val title: String,
     @SerializedName("backdrop_path")
     @Expose
-    val backdropPath: String,
+    val backdropPath: String?,
     @SerializedName("popularity")
     @Expose
     val popularity: Double,

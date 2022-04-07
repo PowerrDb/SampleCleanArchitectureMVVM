@@ -11,7 +11,7 @@ import java.io.File
 
 object ImageLoaderUtility {
     val baseUrl = "https://image.tmdb.org/t/p/w400"
-    fun ImageView.loadImage(imageUrl: String) {
+    fun ImageView.loadImage(imageUrl: String?) {
         Glide.with(this)
             .load(baseUrl + imageUrl)
             .centerCrop()
