@@ -10,10 +10,10 @@ import java.io.File
 
 
 object ImageLoaderUtility {
-
+    val baseUrl = "https://image.tmdb.org/t/p/w400"
     fun ImageView.loadImage(imageUrl: String) {
         Glide.with(this)
-            .load(imageUrl)
+            .load(baseUrl + imageUrl)
             .centerCrop()
 //            .error(R.mipmap.sovo_logo)
             .into(this)

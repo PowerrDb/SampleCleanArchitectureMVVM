@@ -15,7 +15,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/imageView"
+            android:id="@+id/ivCover"
             android:layout_width="match_parent"
             android:layout_height="@dimen/_80sdp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -24,22 +24,41 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:layout_marginTop="@dimen/_10sdp"
-            android:includeFontPadding="false"
-            android:id="@+id/textView"
-            android:layout_width="match_parent"
+            android:id="@+id/tvTitle"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/_10sdp"
             android:fontFamily="@font/iran_sans_mobile_bold"
             android:gravity="right"
-            android:paddingEnd="@dimen/_10sdp"
+            android:includeFontPadding="false"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:text="The Spider Man"
             android:textColor="@color/gray4F4F4F"
             android:textSize="@dimen/_10sdp"
-            app:layout_constraintTop_toBottomOf="@+id/imageView"
-            tools:ignore="SpUsage"
-            android:text="The Spider Man" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/ivCover"
+            tools:ignore="SpUsage" />
 
         <TextView
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:id="@+id/tvScore"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textStyle="bold"
+            android:gravity="right"
+            android:includeFontPadding="false"
+            android:text="26"
+            android:textColor="@color/gray4F4F4F"
+            android:textSize="@dimen/_10sdp"
+            app:layout_constraintBottom_toBottomOf="@+id/tvTitle"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tvTitle"
+            tools:ignore="SpUsage" />
 
+        <TextView
+            android:layout_marginLeft="@dimen/_10sdp"
+            android:layout_marginRight="@dimen/_10sdp"
+            android:id="@+id/tvDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_5sdp"
@@ -47,13 +66,16 @@
             android:fontFamily="@font/iran_sans_mobile_bold"
             android:gravity="right"
             android:includeFontPadding="false"
+            android:maxLines="2"
             android:paddingEnd="@dimen/_10sdp"
+            android:text="The Spider ManThe Spider ManThe Spider ManThe Spider ManThe Spider ManThe Spider ManThe Spider ManThe Spider ManThe Spider ManThe Spider ManThe Spider Man"
             android:textColor="@color/gray"
             android:textSize="@dimen/_9sdp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textView"
-            tools:ignore="SpUsage"
-            android:text="The Spider ManThe Spider ManThe Spider ManThe Spider ManThe Spider ManThe Spider ManThe Spider ManThe Spider ManThe Spider ManThe Spider ManThe Spider Man" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tvTitle"
+            tools:ignore="SpUsage" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </com.google.android.material.card.MaterialCardView>

@@ -7,7 +7,10 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bestpractises.razisample.R
+import com.bestpractises.razisample.databinding.AdapterItemMovieBinding
 import com.bestpractises.razisample.ui.movieList.data.model.MovieResult
+import com.bestpractises.razisample.util.extension.ImageLoaderUtility.loadImage
+import kotlin.math.roundToInt
 
 
 class MoviesAdapter(val onItemClicked: () -> Unit) :
@@ -20,23 +23,22 @@ class MoviesAdapter(val onItemClicked: () -> Unit) :
                 oldItem: MovieResult,
                 newItem: MovieResult
             ): Boolean {
-                return /*oldItem.id == newItem.id*/false
+                return  oldItem.id == newItem.id
             }
 
             override fun areContentsTheSame(
                 oldItem: MovieResult,
                 newItem: MovieResult
             ): Boolean {
-                return/* oldItem == newItem*/false
+                return oldItem == newItem
             }
         }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MovieListViewHolder {
-        val view =
-            LayoutInflater.from(parent.context)
-                .inflate(R.layout.adapter_item_movie, parent, false)
-        return MovieListViewHolder(view, onItemClicked)
+
+        val binding = AdapterItemMovieBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        return MovieListViewHolder(binding, onItemClicked)
     }
 
     override fun onBindViewHolder(holder: MovieListViewHolder, position: Int) {
@@ -44,10 +46,14 @@ class MoviesAdapter(val onItemClicked: () -> Unit) :
     }
 
     inner class MovieListViewHolder(
-        val item: View,
+        val item: AdapterItemMovieBinding,
         val onItemClicked: () -> Unit
-    ) : RecyclerView.ViewHolder(item) {
+    ) : RecyclerView.ViewHolder(item.root) {
         fun onBind(movieModel: MovieResult) {
+            item.ivCover.loadImage(movieModel.backdropPath)
+            item.tvTitle.text = movieModel.title
+            item.tvDescription.text = movieModel.overview
+            item.tvScore.text = movieModel.popularity.toString()
         }
     }
 }
