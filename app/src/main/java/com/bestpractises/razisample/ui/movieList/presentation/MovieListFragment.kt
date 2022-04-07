@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bestpractises.razisample.R
@@ -23,7 +24,8 @@ class MovieListFragment : BaseFragment() {
     val mAdapter = MoviesAdapter(::onItemClicked)
     var data  : ResultData.Success<MovieItem>?=null
     private fun onItemClicked(movieModel: MovieResult) {
-        findNavController().navigate(R.id.action_movieListFragment_to_movieDetailFragment)
+        val bundle = bundleOf("movieModel" to movieModel)
+        findNavController().navigate(R.id.action_movieListFragment_to_movieDetailFragment ,bundle )
 
     }
 

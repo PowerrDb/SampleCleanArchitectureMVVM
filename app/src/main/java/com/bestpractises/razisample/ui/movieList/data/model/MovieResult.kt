@@ -3,6 +3,8 @@ package com.bestpractises.razisample.ui.movieList.data.model
 
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
+import java.io.Serializable
+
 
 data class MovieResult(
     @SerializedName("poster_path")
@@ -47,4 +49,4 @@ data class MovieResult(
     @SerializedName("vote_average")
     @Expose
     val voteAverage: Double
-)
+) : Serializable
