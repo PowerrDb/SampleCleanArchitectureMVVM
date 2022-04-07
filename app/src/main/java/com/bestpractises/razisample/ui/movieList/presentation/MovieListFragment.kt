@@ -23,16 +23,14 @@ class MovieListFragment : BaseFragment() {
 
 
     }
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+    }
+    override fun onViewCreatedFirstTime() {
         observe(viewModel.movieListLiveData, ::movieListData)
         initRecyclerView()
         setListener()
         viewModel.getMovieList(1)
-    }
-    override fun onViewCreatedFirstTime() {
-
     }
 
     override fun onCreateView(
