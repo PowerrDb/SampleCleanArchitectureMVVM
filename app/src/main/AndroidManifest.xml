@@ -15,7 +15,6 @@
 
         <activity
             android:name="com.bestpractises.razisample.MainActivity"
-            android:screenOrientation="portrait"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize" >
             <intent-filter>
