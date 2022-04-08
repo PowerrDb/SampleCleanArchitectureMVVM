@@ -91,17 +91,17 @@ class MovieListFragment : BaseFragment() {
             }
             is ResultData.Failed  -> {
                 isLoading = false
-                showRetry(result.message)
+                errorHandling(result.message)
 
             }
             is ResultData.Exception -> {
                 isLoading = false
-                showRetry(result.message)
+                errorHandling(result.message)
             }
         }
     }
 
-    private fun showRetry(message: String) {
+    private fun errorHandling(message: String) {
         binding.progressBar.gone()
         if (mItems.isNullOrEmpty()) {
             binding.clError.visible()
