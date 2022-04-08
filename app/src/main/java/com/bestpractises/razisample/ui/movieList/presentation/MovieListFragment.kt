@@ -22,7 +22,7 @@ class MovieListFragment : BaseFragment() {
     private val viewModel by viewModels<MovieListViewModel>()
     private var mItems: MutableList<MovieResult>? = mutableListOf()
     private lateinit var binding: FragmentMovieBinding
-    private val mAdapter = MoviesAdapter(::onItemClicked)
+    private val mAdapter : MoviesAdapter by lazy { MoviesAdapter(::onItemClicked)}
     private var data: MovieItem? = null
     private var page: Int = 1
     private var totalPages: Int? = null

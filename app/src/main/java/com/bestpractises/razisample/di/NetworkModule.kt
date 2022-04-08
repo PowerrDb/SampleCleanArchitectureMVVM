@@ -2,8 +2,6 @@ package com.bestpractises.razisample.di
 
 
 import android.content.Context
-import android.content.Intent
-import com.bestpractises.razisample.AppSession
 import com.bestpractises.razisample.BuildConfig
 import com.bestpractises.razisample.network.*
 import dagger.Module

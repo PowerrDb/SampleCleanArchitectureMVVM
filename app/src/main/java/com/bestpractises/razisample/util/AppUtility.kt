@@ -22,7 +22,6 @@ import androidx.core.graphics.ColorUtils
 import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import com.google.android.material.tabs.TabLayout
-import com.bestpractises.razisample.AppSession
 import com.bestpractises.razisample.BuildConfig
 import com.bestpractises.razisample.network.NetworkConst
 import java.io.ByteArrayOutputStream
