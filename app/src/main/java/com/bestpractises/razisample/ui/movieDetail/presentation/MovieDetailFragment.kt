@@ -44,7 +44,7 @@ class MovieDetailFragment : BaseFragment() {
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentMovieDetailBinding.inflate(inflater, container, false)
-        movieModel = arguments?.getSerializable("movieModel") as MovieResult
+//        movieModel = arguments?.getSerializable("movieModel") as MovieResult
         return binding.root
 
     }
