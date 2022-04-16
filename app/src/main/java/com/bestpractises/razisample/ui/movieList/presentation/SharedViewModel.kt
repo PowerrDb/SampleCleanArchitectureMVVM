@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.bestpractises.razisample.R
 import com.bestpractises.razisample.network.ErrorModel
 import com.bestpractises.razisample.ui.movieList.data.model.MovieItem
+import com.bestpractises.razisample.ui.movieList.data.model.MovieResult
 import com.bestpractises.razisample.ui.movieList.domain.MovieListUsecase
 import com.bestpractises.razisample.util.AppUtility
 import com.bestpractises.razisample.util.extension.ResultData
@@ -22,11 +23,12 @@ import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
-class MovieListViewModel @Inject constructor(
+class SharedViewModel @Inject constructor(
     val useCase:  MovieListUsecase,
     val application: Application
 ) : ViewModel() {
     val movieListLiveData = MutableLiveData<ResultData<MovieItem>>()
+    val movieDetailLiveData = MutableLiveData<MovieResult>()
 
     val moviesErrorHandler: CoroutineExceptionHandler
     private var getMoviesJob: Job? = null

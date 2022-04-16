@@ -16,6 +16,7 @@ import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
+import javax.inject.Named
 import javax.inject.Singleton
 
 
@@ -49,8 +50,26 @@ object NetworkModule {
         return if (BuildConfig.DEBUG)
             okHttpClientBuilder
                 .addInterceptor(loggingInterceptor)
+                .addInterceptor { chain ->
+                    val url = chain
+                        .request()
+                        .url
+                        .newBuilder()
+                        .addQueryParameter("api_key", BuildConfig.TOKEN)
+                        .build()
+                    chain.proceed(chain.request().newBuilder().url(url).build())
+                }
                 .build()
         else okHttpClientBuilder
+            .addInterceptor { chain ->
+                val url = chain
+                    .request()
+                    .url
+                    .newBuilder()
+                    .addQueryParameter("api_key", BuildConfig.TOKEN)
+                    .build()
+                chain.proceed(chain.request().newBuilder().url(url).build())
+            }
             .build()
 
     }
@@ -62,7 +81,7 @@ object NetworkModule {
 
     @Provides
     fun providesRetrofitAPI(
-       baseUrl: String,
+        baseUrl: String,
         converter: Converter.Factory,
          okHttpClient: OkHttpClient
     ): Retrofit {

@@ -41,6 +41,7 @@ android {
         demo {
             applicationIdSuffix ".debug"
             buildConfigField 'String', 'API_URL', '"' + "https://api.themoviedb.org" + '"'
+            buildConfigField 'String', 'TOKEN', '"' + "a921fa0aef3e51da58481c65947d3687" + '"'
         }
 
         product {

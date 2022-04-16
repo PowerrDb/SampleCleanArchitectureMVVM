@@ -4,8 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.os.bundleOf
-import androidx.fragment.app.viewModels
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -19,7 +18,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MovieListFragment : BaseFragment() {
-    private val viewModel by viewModels<MovieListViewModel>()
+    private val viewModel by activityViewModels<SharedViewModel>()
     private var mItems: MutableList<MovieResult>? = mutableListOf()
     private lateinit var binding: FragmentMovieBinding
     private val mAdapter : MoviesAdapter by lazy { MoviesAdapter(::onItemClicked)}
@@ -32,8 +31,9 @@ class MovieListFragment : BaseFragment() {
     private val doOnNextPage: (nextPage: Int) -> Unit = ::nexPage
 
     private fun onItemClicked(movieModel: MovieResult) {
-        val bundle = bundleOf("movieModel" to movieModel)
-        findNavController().navigate(R.id.action_movieListFragment_to_movieDetailFragment, bundle)
+       // val bundle = bundleOf("movieModel" to movieModel)
+        viewModel.movieDetailLiveData.postValue(movieModel)
+        findNavController().navigate(R.id.action_movieListFragment_to_movieDetailFragment/*, bundle*/)
 
     }
 

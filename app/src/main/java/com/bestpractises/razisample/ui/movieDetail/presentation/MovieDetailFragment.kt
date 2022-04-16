@@ -4,18 +4,21 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
 import com.bestpractises.razisample.base.BaseFragment
 import com.bestpractises.razisample.databinding.FragmentMovieDetailBinding
 import com.bestpractises.razisample.ui.movieList.data.model.MovieResult
+import com.bestpractises.razisample.ui.movieList.presentation.SharedViewModel
 import com.bestpractises.razisample.util.extension.ImageLoaderUtility.loadImage
+import com.bestpractises.razisample.util.extension.observe
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MovieDetailFragment : BaseFragment() {
     private lateinit var binding: FragmentMovieDetailBinding
     lateinit var movieModel: MovieResult
-
+    private val viewModel by activityViewModels<SharedViewModel>()
     override fun onViewCreatedFirstTime() {
     binding.ivBack.setOnClickListener {
         findNavController().navigateUp()
@@ -24,12 +27,15 @@ class MovieDetailFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        with(binding) {
-            ivCover.loadImage(movieModel.backdropPath)
-            tvTitle.text = movieModel.title
-            tvDescription.text = movieModel.overview
-            tvScore.text = movieModel.popularity.toString()
+        observe(viewModel.movieDetailLiveData) {
+            with(binding) {
+                ivCover.loadImage(it.backdropPath)
+                tvTitle.text = it.title
+                tvDescription.text = it.overview
+                tvScore.text = it.popularity.toString()
+            }
         }
+
     }
 
     override fun onCreateView(

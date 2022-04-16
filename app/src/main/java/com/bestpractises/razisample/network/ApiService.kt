@@ -10,7 +10,7 @@ import java.util.ArrayList
 interface ApiService {
 
 
-    @GET("/3/movie/popular?api_key=a921fa0aef3e51da58481c65947d3687")
+    @GET("/3/movie/popular")
     suspend fun getMovieList(@Query("page") page : Int): Response<MovieItem>
 
 }
