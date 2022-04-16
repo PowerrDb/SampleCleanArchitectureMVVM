@@ -19,10 +19,6 @@ For this app Using[The Movie Db API](https://rickandmortyapi.com/) to display Mo
 - [Gson](https://github.com/google/gson)
 - [Material Design](https://material.io/develop/)
 - 
-## Screenshots:
-
-![List](https://user-images.githubusercontent.com/37610029/163682704-f3990e18-1125-4b1b-ae95-c4a206e46729.png)
-![Detail](https://user-images.githubusercontent.com/37610029/163682707-4d6110ac-8dfe-441d-9429-1118d0b99dcf.png)
 
 ## Package Structure
     
@@ -46,4 +42,8 @@ For this app Using[The Movie Db API](https://rickandmortyapi.com/) to display Mo
     |       └── peresentation   
     |
     └── util               
+
+## Screenshots:
+
+![List](https://user-images.githubusercontent.com/37610029/163682704-f3990e18-1125-4b1b-ae95-c4a206e46729.png)![Detail](https://user-images.githubusercontent.com/37610029/163682707-4d6110ac-8dfe-441d-9429-1118d0b99dcf.png)
 
