@@ -27,14 +27,7 @@ class MovieDetailFragment : BaseFragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        observe(viewModel.movieDetailLiveData) {
-            with(binding) {
-                ivCover.loadImage(it.backdropPath)
-                tvTitle.text = it.title
-                tvDescription.text = it.overview
-                tvScore.text = it.popularity.toString()
-            }
-        }
+
 
     }
 
